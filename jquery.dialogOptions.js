@@ -98,7 +98,7 @@ $.ui.dialog.prototype.open = function () {
     // close on clickOut
     if (self.options['clickOut'] && !self.options['modal']) {
         // use transparent div - simplest approach (rework)
-        $('<div id="dialog-overlay"></div>').insertBefore(self.element);
+        $('<div id="dialog-overlay"></div>').insertBefore(self.element.parent());
         $('#dialog-overlay').css({
             "position": "fixed",
             "top": 0,
