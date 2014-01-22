@@ -44,7 +44,6 @@ $.ui.dialog.prototype._init = function () {
     _init.apply(this, arguments);
     // responsive width & height
     if (self.options["responsive"]) {
-        console.log("Responsive Dialog: true");
         var resize = function () {
             var height = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
             var width = "innerWidth" in window ? window.innerWidth : document.documentElement.offsetWidth;
