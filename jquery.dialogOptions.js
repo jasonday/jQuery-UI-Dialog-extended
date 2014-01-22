@@ -14,9 +14,9 @@
 * (c) Jason Day 2014
 *
 * New Options:
-*	clickOut: true		// closes dialog when clicked outside
-*	responsive: true	// fluid width & height based on viewport
-*	showTitleBar: true	// hide titlebar
+*	clickOut: true          // closes dialog when clicked outside
+*	responsive: true	    // fluid width & height based on viewport
+*	showTitleBar: true	    // hide titlebar
 *	showCloseButton: true	// hide close button
 *  
 * Added functionality:
