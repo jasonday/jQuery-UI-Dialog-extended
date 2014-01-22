@@ -112,7 +112,6 @@ $.ui.dialog.prototype.open = function () {
             e.preventDefault();
             e.stopPropagation();
             self.close();
-            $(this).remove();
         });
         // else close on modal click
     } else if (self.options['modal']) {
@@ -138,6 +137,10 @@ $.ui.dialog.prototype.close = function () {
     // remove dialogClass to overlay
     if (self.options['dialogClass']) {
         $('.ui-widget-overlay').removeClass(self.options['dialogClass']);
+    }
+     //remove clickOut overlay
+    if($("#dialog-overlay").length ){
+        $("#dialog-overlay").remove();
     }
 }
 //end close
