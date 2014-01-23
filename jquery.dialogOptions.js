@@ -26,7 +26,7 @@
 
 // orientation change event - requires debouncedresize
 var supportsOrientationChange = "onorientationchange" in window,
-    orientationEvent = supportsOrientationChange ? "orientationchange" : "debouncedresize.responsive";
+    orientationEvent = supportsOrientationChange ? "orientationchange" : "debouncedresize";
 
 
 // add new options with default values
@@ -44,14 +44,25 @@ $.ui.dialog.prototype._init = function () {
     _init.apply(this, arguments);
     // responsive width & height
     if (self.options["responsive"]) {
-        var resize = function () {
-            var height = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-            var width = "innerWidth" in window ? window.innerWidth : document.documentElement.offsetWidth;
-            var setHeight = height * 0.7;
-            var setWidth = width * 0.7;
-            self.element.css({
-                "max-height": setHeight,
-                "max-width": setWidth,
+         var resize = function () {
+            var elem = self.element,
+                wHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight,
+                wWidth = "innerWidth" in window ? window.innerWidth : document.documentElement.offsetWidth,
+                dHeight = elem.parent().outerHeight(),
+                dWidth = elem.parent().outerWidth(),
+                setHeight = wHeight * 0.8,
+                setWidth = wWidth * 0.8;
+            
+            if((dHeight + 100) > wHeight){
+                elem.dialog("option","height", setHeight);
+            }
+            if((dWidth + 100) > wWidth){
+                elem.dialog("option","width", setWidth);
+            }
+            
+            elem.dialog("option", "position", "center");
+           
+            elem.css({
                 "overflow-y": "scroll",
                 "-webkit-overflow-scrolling": "touch"
             });
