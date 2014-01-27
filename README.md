@@ -1,3 +1,6 @@
+Not ready for production use. Outstanding issue with calculations and zoom level. 
+
+
 UI-Dialog-Options v1.0
 =================
 
