@@ -14,15 +14,15 @@
  * (c) Jason Day 2014
  *
  * New Options:
- *	clickOut: true			// closes dialog when clicked outside
- *	responsive: true		// fluid width & height based on viewport
+ *  clickOut: true			// closes dialog when clicked outside
+ *  responsive: true		// fluid width & height based on viewport
  *					        // true: always responsive
  *					        // false: never responsive
  *					        // "touch": only responsive on touch device
  *  scaleH: 0.8             // responsive scale height percentage, 0.8 = 80% of viewport
  *  scaleW: 0.8             // responsive scale width percentage, 0.8 = 80% of viewport
- *	showTitleBar: true		// false: hide titlebar
- *	showCloseButton: true	// false: hide close button
+ *  showTitleBar: true		// false: hide titlebar
+ *  showCloseButton: true	// false: hide close button
  *
  * Added functionality:
  *  add & remove dialogClass to .ui-widget-overlay for scoping styles
