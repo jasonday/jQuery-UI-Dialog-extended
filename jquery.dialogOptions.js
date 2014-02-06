@@ -82,13 +82,13 @@ $.ui.dialog.prototype.open = function () {
                 dWidth = elem.parent().outerWidth(),
                 setHeight = Math.min(wHeight * self.options.scaleH, oHeight),
                 setWidth = Math.min(wWidth * self.options.scaleW, oWidth);
-            
+
             // check & set height
             if ((oHeight + 100) > wHeight || elem.hasClass("resizedH")) {
                 elem.dialog("option", "height", setHeight).parent().css("max-height", setHeight);
                 elem.addClass("resizedH");
             }
-            
+
             // check & set width
             if ((oWidth + 100) > wWidth || elem.hasClass("resizedW")) {
                 elem.dialog("option", "width", setWidth).parent().css("max-width", setWidth);
