@@ -1,7 +1,5 @@
-Not ready for production use. Outstanding issue with calculations and zoom level. 
 
-
-UI-Dialog-Options v1.0
+jQuery UI Dialog Options v1.0
 =================
 
 Additional options/functionality for jQuery UI Dialog.
