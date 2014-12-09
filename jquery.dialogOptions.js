@@ -118,9 +118,11 @@ $.ui.dialog.prototype.open = function () {
     });
 
     // resize on orientation change
-    window.addEventListener("orientationchange", function () {
-        resize();
-    });
+     if (window.addEventListener) {  // Add extra condition because IE8 doesn't support addEventListener (or orientationchange)
+        window.addEventListener("orientationchange", function () {
+            resize();
+        });
+    }
 
     // hide titlebar
     if (!self.options.showTitleBar) {
