@@ -30,6 +30,8 @@
  *	recenter dialog - ajax loaded content
  */
 
+ (function () {
+
 // add new options with default values
 $.ui.dialog.prototype.options.clickOut = true;
 $.ui.dialog.prototype.options.responsive = true;
@@ -143,30 +145,31 @@ $.ui.dialog.prototype.open = function () {
     // close on clickOut
     if (self.options.clickOut && !self.options.modal) {
         // use transparent div - simplest approach (rework)
-        $('<div id="dialog-overlay"></div>').insertBefore(self.element.parent());
-        $('#dialog-overlay').css({
-            "position": "fixed",
-            "top": 0,
-            "right": 0,
-            "bottom": 0,
-            "left": 0,
-            "background-color": "transparent"
-        });
-        $('#dialog-overlay').click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            self.close();
-        });
+        self.overlay = $('<div class="dialog-overlay"></div>')
+            .css({
+                "position": "fixed",
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0,
+                "background-color": "transparent"
+            })
+            .click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                self.close();
+            })
+            .insertBefore(self.element.parent());
         // else close on modal click
     } else if (self.options.clickOut && self.options.modal) {
-        $('.ui-widget-overlay').click(function (e) {
+        self.overlay.click(function (e) {
             self.close();
         });
     }
 
     // add dialogClass to overlay
     if (self.options.dialogClass) {
-        $('.ui-widget-overlay').addClass(self.options.dialogClass);
+        self.overlay.addClass(self.options.dialogClass);
     }
 };
 //end open
@@ -179,13 +182,11 @@ $.ui.dialog.prototype.close = function () {
     // apply original arguments
     _close.apply(this, arguments);
 
-    // remove dialogClass to overlay
-    if (self.options.dialogClass) {
-        $('.ui-widget-overlay').removeClass(self.options.dialogClass);
-    }
     //remove clickOut overlay
-    if ($("#dialog-overlay").length) {
-        $("#dialog-overlay").remove();
+    if (!self.options.modal && self.overlay) {
+        self.overlay.remove();
     }
 };
 //end close
+
+})();
