@@ -21,6 +21,7 @@
  *                          // "touch": only responsive on touch device
  *  scaleH: 0.8             // responsive scale height percentage, 0.8 = 80% of viewport
  *  scaleW: 0.8             // responsive scale width percentage, 0.8 = 80% of viewport
+ *  keepAspectRatio: false  // will maintain dialog's original aspect ratio
  *  showTitleBar: true      // false: hide titlebar
  *  showCloseButton: true   // false: hide close button
  *
@@ -35,6 +36,7 @@ $.ui.dialog.prototype.options.clickOut = true;
 $.ui.dialog.prototype.options.responsive = true;
 $.ui.dialog.prototype.options.scaleH = 0.8;
 $.ui.dialog.prototype.options.scaleW = 0.8;
+$.ui.dialog.prototype.options.keepAspectRatio = false;
 $.ui.dialog.prototype.options.showTitleBar = true;
 $.ui.dialog.prototype.options.showCloseButton = true;
 
@@ -68,6 +70,7 @@ $.ui.dialog.prototype.open = function () {
     // get dialog original size on open
     var oHeight = self.element.parent().outerHeight(),
         oWidth = self.element.parent().outerWidth(),
+    aspectRatio = oWidth / oHeight;
         isTouch = $("html").hasClass("touch");
 
     // responsive width & height
@@ -81,17 +84,39 @@ $.ui.dialog.prototype.open = function () {
                 wWidth = $(window).width(),
                 dHeight = elem.parent().outerHeight(),
                 dWidth = elem.parent().outerWidth(),
-                setHeight = Math.min(wHeight * self.options.scaleH, oHeight),
+                setHeight,
+                setWidth,
+                scaleFactor;
+
+            if (self.options.keepAspectRatio) {
+                // Get the scale factor that'll fit the current dialog dimension into the window
+                scaleFactor = Math.min(wWidth/oWidth, wHeight/oHeight); 
+                setHeight = Math.min(oHeight * scaleFactor, oHeight);
+                setWidth = Math.min(oWidth * scaleFactor, oWidth);
+
+                // Apply a second scale to take into account self.options.scaleH and self.options.scaleW
+                // Also find out which of these options to apply
+                if (setHeight > setWidth) {
+                    scaleFactor = self.options.scaleH;
+                } else {
+                    scaleFactor = self.options.scaleW;
+                }
+
+                setHeight *= scaleFactor;
+                setWidth *= scaleFactor;
+            } else {
+                setHeight = Math.min(wHeight * self.options.scaleH, oHeight);
                 setWidth = Math.min(wWidth * self.options.scaleW, oWidth);
+            }
 
             // check & set height
-            if ((oHeight + 100) > wHeight || elem.hasClass("resizedH")) {
+            if ((oHeight + 100) > wHeight || elem.hasClass("resizedH") || self.options.keepAspectRatio) {
                 elem.dialog("option", "height", setHeight).parent().css("max-height", setHeight);
                 elem.addClass("resizedH");
             }
 
             // check & set width
-            if ((oWidth + 100) > wWidth || elem.hasClass("resizedW")) {
+            if ((oWidth + 100) > wWidth || elem.hasClass("resizedW") || self.options.keepAspectRatio) {
                 elem.dialog("option", "width", setWidth).parent().css("max-width", setWidth);
                 elem.addClass("resizedW");
             }
