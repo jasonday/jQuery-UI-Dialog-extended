@@ -6,7 +6,7 @@
  * Dependencies:
  *		jQuery: http://jquery.com/
  *		jQuery UI: http://jqueryui.com/
- *		Modernizr: http://modernizr.com/
+ *		Modernizr: http://modernizr.com/    Modernizr adds feature detection. dialogOptions optionally checks for html.touch for scrolling
  *
  * MIT license:
  *              http://www.opensource.org/licenses/mit-license.php
