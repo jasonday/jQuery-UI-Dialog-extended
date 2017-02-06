@@ -42,8 +42,6 @@ $.ui.dialog.prototype.options.showCloseButton = true;
 // extend _init
 var _init = $.ui.dialog.prototype._init;
 $.ui.dialog.prototype._init = function () {
-    var self = this;
-
     // apply original arguments
     _init.apply(this, arguments);
 
@@ -72,15 +70,12 @@ $.ui.dialog.prototype.open = function () {
 
     // responsive width & height
     var resize = function () {
-
+        var elem = self.element;
         // check if responsive
         // dependent on modernizr for device detection / html.touch
         if (self.options.responsive === true || (self.options.responsive === "touch" && isTouch)) {
-            var elem = self.element,
-                wHeight = $(window).height(),
+            var wHeight = $(window).height(),
                 wWidth = $(window).width(),
-                dHeight = elem.parent().outerHeight(),
-                dWidth = elem.parent().outerWidth(),
                 setHeight = Math.min(wHeight * self.options.scaleH, oHeight),
                 setWidth = Math.min(wWidth * self.options.scaleW, oWidth);
 
