@@ -1,0 +1,32 @@
+{
+  "name": "jquery-ui.dialog-extended",
+  "version": "1.0.0",
+  "homepage": "https://github.com/jasonday/jQuery-UI-Dialog-extended",
+  "authors": [
+    "Jason Day <movemaine@gmail.com>"
+  ],
+  "description": "Responsive jQuery UI dialog, click outside close, and other extended options",
+  "main": "jquery.dialogOptions.js",
+  "keywords": [
+    "jquery",
+    "jqueryui",
+    "ui",
+    "dialog",
+    "widget",
+    "responsive",
+    "overlay"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">=1.6",
+    "jquery-ui": ">=1.0",
+    "modernizr": ">=1.5"
+  }
+}
