@@ -129,10 +129,10 @@ $.ui.dialog.prototype.open = function () {
     
     // center on window scroll according to keepVisible
     $(window).on("scroll", function () {
-        if (self.options.keepVisible === true || (self.options.keepVisible === "modal" && self.options.modal) {
+        if (self.options.keepVisible === true || (self.options.keepVisible === "modal" && self.options.modal)) {
             center();
         }
-    };
+    });
     
     // resize on orientation change
      if (window.addEventListener) {  // Add extra condition because IE8 doesn't support addEventListener (or orientationchange)
