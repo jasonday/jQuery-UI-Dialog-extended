@@ -79,7 +79,10 @@ $.ui.dialog.prototype.open = function () {
     };
 
     // responsive width & height
-    var resize = function () {
+    var resize = function (force) {
+        
+        if (typeof force == "undefined")
+            force = false;
 
         // check if responsive
         // dependent on modernizr for device detection / html.touch
@@ -104,13 +107,15 @@ $.ui.dialog.prototype.open = function () {
                 elem.addClass("resizedW");
             }
             
-            // recenter
-            center();
-
-            // only add overflow if dialog has been resized
-            if (elem.hasClass("resizedH") || elem.hasClass("resizedW")) {
+            // only recenter and add overflow if dialog has been resized or centering is forced
+            if (force || elem.hasClass("resizedH") || elem.hasClass("resizedW")) {
+                center();
                 elem.css("overflow", "auto");
             }
+        }
+        // although not responsive, recenter if forced and not draggable
+        else if (force && !self.options.draggable) {
+            center();
         }
 
         // add webkit scrolling to all dialogs for touch devices
@@ -122,9 +127,9 @@ $.ui.dialog.prototype.open = function () {
     // call resize()
     resize();
 
-    // resize on window resize
+    // resize on window resize (force centering)
     $(window).on("resize", function () {
-        resize();
+        resize(true);
     });
     
     // center on window scroll according to keepVisible
@@ -134,10 +139,10 @@ $.ui.dialog.prototype.open = function () {
         }
     });
     
-    // resize on orientation change
+    // resize on orientation change (force centering)
      if (window.addEventListener) {  // Add extra condition because IE8 doesn't support addEventListener (or orientationchange)
         window.addEventListener("orientationchange", function () {
-            resize();
+            resize(true);
         });
     }
 
