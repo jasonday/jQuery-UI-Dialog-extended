@@ -75,7 +75,16 @@ $.ui.dialog.prototype.open = function () {
         isTouch = $("html").hasClass("touch");
     
     var center = function () {
-        self.element.dialog("option", "position", "center");
+		var elem = self.element;
+
+		// center only it fits in viewport
+		if ($(elem).width() <= $(window).width()
+			&& $(elem).height() <= $(window).height())
+		{
+			if ($(elem).hasClass('ui-dialog-content')) {
+				elem.dialog("option", "position", "center");
+			}
+		}
     };
 
     // responsive width & height
