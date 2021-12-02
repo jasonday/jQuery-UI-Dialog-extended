@@ -78,8 +78,8 @@ $.ui.dialog.prototype.open = function () {
 	var elem = self.element;
 
 	// center only it fits in viewport
-	if ($(elem).width() <= $(window).width()
-		&& $(elem).height() <= $(window).height())
+	if ($(elem).parent().outerWidth() <= $(window).width()
+		&& $(elem).parent().outerHeight() <= $(window).height())
 	{
 		if ($(elem).hasClass('ui-dialog-content')) {
 			elem.dialog("option", "position", "center");
