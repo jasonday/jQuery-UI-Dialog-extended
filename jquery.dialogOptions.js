@@ -23,6 +23,9 @@
  *  scaleW: 0.8             // responsive scale width percentage, 0.8 = 80% of viewport
  *  showTitleBar: true      // false: hide titlebar
  *  showCloseButton: true   // false: hide close button
+ *  keepVisible: "modal"    // true: keep visible on scroll
+ *                          // false: do not keep visible on scroll
+ *                          // "modal": only keep modal dialogs visible on scroll
  *
  * Added functionality:
  *  add & remove dialogClass to .ui-widget-overlay for scoping styles
@@ -37,6 +40,7 @@ $.ui.dialog.prototype.options.scaleH = 0.8;
 $.ui.dialog.prototype.options.scaleW = 0.8;
 $.ui.dialog.prototype.options.showTitleBar = true;
 $.ui.dialog.prototype.options.showCloseButton = true;
+$.ui.dialog.prototype.options.keepVisible = "modal";
 
 
 // extend _init
@@ -69,9 +73,25 @@ $.ui.dialog.prototype.open = function () {
     var oHeight = self.element.parent().outerHeight(),
         oWidth = self.element.parent().outerWidth(),
         isTouch = $("html").hasClass("touch");
+    
+    var center = function () {
+	var elem = self.element;
+
+	// center only it fits in viewport
+	if ($(elem).parent().outerWidth() <= $(window).width()
+		&& $(elem).parent().outerHeight() <= $(window).height())
+	{
+		if ($(elem).hasClass('ui-dialog-content')) {
+			elem.dialog("option", "position", "center");
+		}
+	}
+    };
 
     // responsive width & height
-    var resize = function () {
+    var resize = function (force) {
+        
+        if (typeof force == "undefined")
+            force = false;
 
         // check if responsive
         // dependent on modernizr for device detection / html.touch
@@ -95,12 +115,16 @@ $.ui.dialog.prototype.open = function () {
                 elem.dialog("option", "width", setWidth).parent().css("max-width", setWidth);
                 elem.addClass("resizedW");
             }
-
-            // only recenter & add overflow if dialog has been resized
-            if (elem.hasClass("resizedH") || elem.hasClass("resizedW")) {
-                elem.dialog("option", "position", "center");
+            
+            // only recenter and add overflow if dialog has been resized or centering is forced
+            if (force || elem.hasClass("resizedH") || elem.hasClass("resizedW")) {
+                center();
                 elem.css("overflow", "auto");
             }
+        }
+        // although not responsive, recenter if forced and not draggable
+        else if (force && !self.options.draggable) {
+            center();
         }
 
         // add webkit scrolling to all dialogs for touch devices
@@ -112,15 +136,22 @@ $.ui.dialog.prototype.open = function () {
     // call resize()
     resize();
 
-    // resize on window resize
+    // resize on window resize (force centering)
     $(window).on("resize", function () {
-        resize();
+        resize(true);
     });
-
-    // resize on orientation change
+    
+    // center on window scroll according to keepVisible
+    $(window).on("scroll", function () {
+        if (self.options.keepVisible === true || (self.options.keepVisible === "modal" && self.options.modal)) {
+            center();
+        }
+    });
+    
+    // resize on orientation change (force centering)
      if (window.addEventListener) {  // Add extra condition because IE8 doesn't support addEventListener (or orientationchange)
         window.addEventListener("orientationchange", function () {
-            resize();
+            resize(true);
         });
     }
 
